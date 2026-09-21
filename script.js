@@ -1,30 +1,3 @@
-document.getElementById('year').textContent = new Date().getFullYear();
-
-const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
-const revealItems = document.querySelectorAll('.hero > div, .portrait, .about > div, .section-heading, .project-copy, .visual, .moderation > div, .contact-grid > div, .skills li');
-let observer;
-
-function configureMotion() {
-  observer?.disconnect();
-  if (motionPreference.matches || !('IntersectionObserver' in window)) {
-    revealItems.forEach(item => item.classList.remove('motion-ready', 'is-visible'));
-    return;
-  }
-  observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  revealItems.forEach(item => {
-    // Only conceal elements below the viewport; visible content stays available.
-    if (item.getBoundingClientRect().top >= window.innerHeight) {
-      item.classList.add('motion-ready');
-      observer.observe(item);
-    }
-  });
-}
-configureMotion();
-motionPreference.addEventListener('change', configureMotion);
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+if(!reduceMotion.matches&&'IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.05});document.querySelectorAll('.project-title h2,.detail-body,.gallery,.why,.skills-section').forEach(el=>{if(el.getBoundingClientRect().top>innerHeight){el.classList.add('reveal');observer.observe(el)}});reduceMotion.addEventListener('change',()=>{if(reduceMotion.matches){observer.disconnect();document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'))}})}
+document.querySelectorAll('.skills li').forEach((el,i)=>el.style.setProperty('--i',i));
