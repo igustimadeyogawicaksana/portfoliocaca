@@ -1,3 +1,4 @@
+const webStyles=document.createElement('link');webStyles.rel='stylesheet';webStyles.href='web.css?v=1';document.head.appendChild(webStyles);
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
 if(!reduceMotion.matches&&'IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.05});document.querySelectorAll('.project-title h2,.detail-body,.gallery,.why,.skills-section').forEach(el=>{if(el.getBoundingClientRect().top>innerHeight){el.classList.add('reveal');observer.observe(el)}});reduceMotion.addEventListener('change',()=>{if(reduceMotion.matches){observer.disconnect();document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'))}})}
 document.querySelectorAll('.skills li').forEach((el,i)=>el.style.setProperty('--i',i));
